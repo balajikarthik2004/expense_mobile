@@ -1,41 +1,8 @@
 import * as tokenStore from '../lib/tokenStore';
 import Constants from 'expo-constants';
 
-// Where the API lives, in order of precedence:
-//   1. EXPO_PUBLIC_API_BASE_URL — .env locally, eas.json `env` for a build.
-//   2. expo.extra.apiBaseUrl in app.json — committed, so a build always has a
-//      value even if the env plumbing is missed.
-//   3. localhost, DEV ONLY.
-//
-// Step 3 is gated on __DEV__ deliberately. It used to apply everywhere, and
-// because .env is gitignored, release builds silently fell through to
-// http://localhost:5000 — which Android release blocks as cleartext, surfacing
-// as an opaque "UnknownServiceException" instead of "the API URL is not set".
-const configured =
-  process.env.EXPO_PUBLIC_API_BASE_URL ||
-  Constants.expoConfig?.extra?.apiBaseUrl ||
-  null;
-
-if (!configured && !__DEV__) {
-  console.error(
-    '[KB_Expense] No API base URL configured for this build. Set ' +
-    'EXPO_PUBLIC_API_BASE_URL in eas.json, or expo.extra.apiBaseUrl in app.json.',
-  );
-}
-
-// Android and iOS both block cleartext HTTP in release builds, so an http:// URL
-// here cannot work in production — say so plainly rather than letting it fail as
-// a network error at the first request.
-if (configured && !__DEV__ && configured.startsWith('http://')) {
-  console.error(
-    `[KB_Expense] API base URL "${configured}" uses plain HTTP. Release builds ` +
-    'block cleartext traffic — this must be an https:// URL.',
-  );
-}
-
-// Point this at your machine's LAN IP when testing on a device — localhost is
-// the phone's own loopback, not your dev machine.
-const BASE_URL = configured || 'http://localhost:5000/api';
+// Where the API lives, hardcoded as requested.
+const BASE_URL = 'https://expense-backend-ywnn.onrender.com/api';
 
 const ACCESS_KEY = 'kb_access_token';
 const REFRESH_KEY = 'kb_refresh_token';
