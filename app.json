@@ -11,10 +11,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#fcf9f4",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/adaptive-icon.png"
       },
       "package": "com.balaji004.kbexpense"
     },
@@ -33,7 +31,8 @@
       "router": {},
       "eas": {
         "projectId": "a905162c-de3f-44c0-bd86-1a944cb2c2dc"
-      }
+      },
+      "apiBaseUrl": "https://expense-backend-ywnn.onrender.com/api"
     }
   }
 }
