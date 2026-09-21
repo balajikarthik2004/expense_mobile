@@ -15,7 +15,8 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "package": "com.balaji004.kbexpense"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -27,6 +28,12 @@
       "expo-splash-screen"
     ],
     "scheme": "kbexpense",
-    "backgroundColor": "#fcf9f4"
+    "backgroundColor": "#fcf9f4",
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a905162c-de3f-44c0-bd86-1a944cb2c2dc"
+      }
+    }
   }
 }
