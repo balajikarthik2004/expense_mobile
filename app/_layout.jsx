@@ -23,6 +23,7 @@ import {
 import { AuthProvider, useAuth } from '../src/lib/auth';
 import { LedgerProvider } from '../src/lib/ledger';
 import { ToastProvider } from '../src/lib/toast';
+import { bootstrapReminder, onReminderTap } from '../src/lib/reminders';
 import { colors } from '../src/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -38,6 +39,16 @@ function RootNavigator() {
     if (!user && !inAuthGroup) router.replace('/sign-in');
     else if (user && inAuthGroup) router.replace('/');
   }, [user, bootstrapping, segments, router]);
+
+  // Re-apply the stored reminder schedule, and send a tap on it straight to the
+  // entry form. Both are gated on a session: someone signed out has nothing to
+  // log, and a permission prompt on the sign-in screen would land before the
+  // app has explained what it wants the permission for.
+  useEffect(() => {
+    if (!user) return undefined;
+    bootstrapReminder();
+    return onReminderTap(() => router.push('/add-expense'));
+  }, [user, router]);
 
   if (bootstrapping) {
     return (

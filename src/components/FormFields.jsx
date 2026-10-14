@@ -349,7 +349,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  tileText: { ...typography.bodySm, color: semantic.textPrimary },
+  // 11px, not bodySm's 12: the longest label ("Entertainment") measures 79.7px
+  // at 12px against a 75.4px tile on a 360dp screen, so it would ellipsize on
+  // the narrower half of Android. At 11px it clears every size.
+  tileText: { ...typography.bodySm, fontSize: 11, color: semantic.textPrimary },
   tileTextActive: { color: '#fff', fontFamily: 'DMSans_700Bold' },
 
   choiceRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },

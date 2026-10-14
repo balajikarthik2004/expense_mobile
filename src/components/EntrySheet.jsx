@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   View, Text, Pressable, StyleSheet, ScrollView,
   KeyboardAvoidingView, Platform, ActivityIndicator,
@@ -14,6 +14,7 @@ import { AmountField, TextField, CategoryGrid, FieldLabel } from './FormFields';
 import { colors, gradients, radius, semantic, shadows, spacing, typography } from '../theme';
 import { formatCurrency, formatRelativeDate, today, yesterday } from '../lib/format';
 import { useToast } from '../lib/toast';
+import { playSuccess } from '../lib/feedback';
 
 const NOTE_MAX = 500;
 const DESC_MAX = 200;
@@ -57,6 +58,15 @@ export default function EntrySheet({
   const valid = amount > 0 && form.description.trim().length > 0;
   const chosen = categories.find((c) => c.id === form.category) ?? categories[0];
 
+  // The sheet is a route, not an overlay, so it can be entered with nothing
+  // behind it: a reload or a direct URL on web, a deep link or a notification
+  // tap on native. `back()` then warns that GO_BACK went unhandled and leaves
+  // the user stranded here, so fall back to the tab this entry belongs to.
+  const close = useCallback(() => {
+    if (router.canGoBack()) router.back();
+    else router.replace(isIncome ? '/income' : '/');
+  }, [router, isIncome]);
+
   const submit = async () => {
     if (!amount || amount <= 0) return setError('Enter an amount greater than zero.');
     if (!form.description.trim()) return setError('Add a short description so this entry is identifiable.');
@@ -78,7 +88,10 @@ export default function EntrySheet({
         await onCreate(payload);
         toast.success(isIncome ? 'Income recorded.' : 'Expense recorded.');
       }
-      router.back();
+      // Only on a write that landed. Deliberately not wired into toast.success
+      // itself, which also fires for deletions — a chime does not suit those.
+      playSuccess();
+      close();
     } catch (e) {
       setError(e.message || 'Could not save this entry.');
       setBusy(false);
@@ -91,7 +104,7 @@ export default function EntrySheet({
       await onDelete(existing._id);
       setConfirmDelete(false);
       toast.success('Entry deleted.');
-      router.back();
+      close();
     } catch (e) {
       setDeleting(false);
       setConfirmDelete(false);
@@ -126,7 +139,7 @@ export default function EntrySheet({
             </Text>
           </View>
           <Pressable
-            onPress={() => router.back()}
+            onPress={close}
             style={styles.close}
             hitSlop={8}
             accessibilityLabel="Dismiss without saving"

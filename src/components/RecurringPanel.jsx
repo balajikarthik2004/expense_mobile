@@ -9,6 +9,7 @@ import { colors, radius, semantic, spacing, typography } from '../theme';
 import { CATEGORIES, FREQUENCIES, getCategory } from '../lib/categories';
 import { formatCurrency, today } from '../lib/format';
 import { useToast } from '../lib/toast';
+import { playSuccess } from '../lib/feedback';
 
 const freqLabel = (id) => FREQUENCIES.find((f) => f.id === id)?.label ?? id;
 
@@ -112,6 +113,10 @@ export default function RecurringPanel({
     try {
       await onApply(item);
       toast.success(`Logged ${item.description}.`);
+      // Same event as a sheet submit — this posts a real expense — so it gets
+      // the same confirmation. Adding or editing a template below does not:
+      // that is configuration, not an entry.
+      playSuccess();
     } catch (e) {
       toast.error(e.message || 'Could not log that entry.');
     } finally {

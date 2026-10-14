@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Screen from '../../src/components/Screen';
 import SectionCard from '../../src/components/SectionCard';
 import ConfirmDialog from '../../src/components/ConfirmDialog';
+import ReminderPanel from '../../src/components/ReminderPanel';
 import { TextField, ChoiceRow, FieldLabel } from '../../src/components/FormFields';
 
 import { colors, radius, semantic, spacing, typography } from '../../src/theme';
@@ -203,6 +204,8 @@ export default function SettingsScreen() {
             )}
         </Pressable>
       </SectionCard>
+
+      <ReminderPanel />
 
       <SectionCard title="Data Overview" subtitle="What this folio holds" icon="database-outline">
         <View style={styles.statRow}>

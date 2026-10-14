@@ -23,7 +23,14 @@
       "expo-router",
       "expo-font",
       "expo-secure-store",
-      "expo-splash-screen"
+      "expo-splash-screen",
+      [
+        "expo-notifications",
+        {
+          "color": "#a53c15"
+        }
+      ],
+      "expo-audio"
     ],
     "scheme": "kbexpense",
     "backgroundColor": "#fcf9f4",

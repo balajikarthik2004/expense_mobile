@@ -3,6 +3,7 @@ import Constants from 'expo-constants';
 
 // Where the API lives, hardcoded as requested.
 const BASE_URL = 'https://expense-backend-ywnn.onrender.com/api';
+// const BASE_URL = 'http://localhost:5000/api';
 
 const ACCESS_KEY = 'kb_access_token';
 const REFRESH_KEY = 'kb_refresh_token';
